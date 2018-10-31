@@ -2,7 +2,8 @@
 # Script for setting up Kali Linux
 # Tools to install
 # must run as sudo
-# replace newuser with whatever username you want 
+# supply argument of user you want
+# ie: sudo ./kali_setup.sh nottoor
 
 # todo: 
 # add firewall hardening using ufw
@@ -17,14 +18,15 @@ cd /tmp/
 ./VBoxLinuxAdditions.run
 
 cd
-
+user=$1
 #Add new user  
-adduser newuser 
-#useradd -g users -d /home/newuser -s /bin/bash -m -p $(echo mypasswd | openssl passwd -1 -stdin) newuser
+adduser $user 
+#adduser $user
+#useradd -g users -d /home/$user -s /bin/bash -m -p $(echo mypasswd | openssl passwd -1 -stdin) $user 
 
 #Give new user sudo privileges 
 #User privilege specification 
-echo "newuser ALL=(ALL:ALL) ALL" >> /etc/sudoers
+echo "$user ALL=(ALL:ALL) ALL" >> /etc/sudoers
 
 #Disable SSH for Root 
 echo "PermitRootLogin no" >> /etc/ssh/sshd_config 
@@ -88,12 +90,12 @@ cd
 #sudo /etc/init.d/hostname.sh 
 
 #cronjob for hourly updates/upgrades, this isnt working yet
-cd /home/newuser
+cd /home/$user
 
 #write out current crontab
 #echo new cron into cron file
 #install new cron file
-su -c "crontab -l > mycron; echo '0 * * * * sudo apt-get update && sudo apt-get upgrade -y' >>mycron; crontab mycron; rm mycron" -s /bin/sh newuser
+su -c "crontab -l > mycron; echo '0 * * * * sudo apt-get update && sudo apt-get upgrade -y' >>mycron; crontab mycron; rm mycron" -s /bin/sh $user
 
 
 
