@@ -1,13 +1,22 @@
 #!/bin/bash
 # Script to use when standing up a new kali box, it installs virtualbox guest additions, updates, adds a new user, and installs a bunch of tools not included out of the box.
 # must run as sudo
-# supply argument of user you want
-echo Example Usage: ie: sudo ./kali_setup.sh nottoor
 
 # todo: 
 # add firewall hardening using ufw
 # cronjob for hourly updates/upgrades
 # use ssh keys instead of username/password if needed
+
+#set user variable
+user=$1
+
+#check user variable is set
+if [ -z "$1" ]
+then  
+	echo Please supply a username	
+	echo Example Usage: ie: sudo ./kali_setup.sh nottoor
+	exit 
+fi
 
 #install vbox guest additions
 #insert guest additions CD
@@ -16,8 +25,9 @@ cp -r * /tmp/
 cd /tmp/
 ./VBoxLinuxAdditions.run
 
+#change to root directory
 cd
-user=$1
+
 #Add new user  
 adduser $user 
 #adduser $user
