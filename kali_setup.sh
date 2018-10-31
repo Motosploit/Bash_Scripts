@@ -4,9 +4,10 @@
 # must run as sudo
 # replace newuser with whatever username you want 
 
-# todo: add firewall hardening using ufw
-
-
+# todo: 
+# add firewall hardening using ufw
+# cronjob for hourly updates/upgrades
+# use ssh keys instead of username/password if needed
 
 #install vbox guest additions
 #insert guest additions CD
