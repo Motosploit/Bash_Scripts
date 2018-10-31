@@ -1,9 +1,8 @@
 #!/bin/bash
-# Script for setting up Kali Linux
-# Tools to install
+# Script to use when standing up a new kali box, it installs virtualbox guest additions, updates, adds a new user, and installs a bunch of tools not included out of the box.
 # must run as sudo
 # supply argument of user you want
-# ie: sudo ./kali_setup.sh nottoor
+echo Example Usage: ie: sudo ./kali_setup.sh nottoor
 
 # todo: 
 # add firewall hardening using ufw
