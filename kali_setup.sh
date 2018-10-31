@@ -20,11 +20,12 @@ fi
 
 #install vbox guest additions
 #insert guest additions CD
+echo Installing virtualbox guest additions.
 cd /media/cdrom/
 cp -r * /tmp/
 cd /tmp/
 ./VBoxLinuxAdditions.run
-
+echo Guest additions install complete.
 #change to root directory
 cd
 
