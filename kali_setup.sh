@@ -4,7 +4,6 @@
 
 # todo: 
 # add firewall hardening using ufw?
-# cronjob for hourly updates/upgrades
 # use ssh keys instead of username/password if needed
 
 #set user variable
@@ -113,14 +112,7 @@ cd /opt/Sublist3r
 sudo pip install -r requirements.txt
 cd
 
-#cronjob for hourly updates/upgrades, had some issues with this
-cd /home/$user
-#write out current crontab
-#echo new cron into cron file
-#install new cron file
-su -c "crontab -l > mycron; echo '0 * * * * sudo apt-get update && sudo apt-get upgrade -y' >>mycron; crontab mycron; rm mycron" -s /bin/sh $user
-
-#harden the image,
+#harden the image
 echo Applying hardening scripts from https://gist.github.com/NitescuLucian/
 #chkrootkit examines certain elements of the target system and determines whether they have been tampered with.
 sudo apt-get install chkrootkit
@@ -151,6 +143,13 @@ sudo apt-get install rkhunter
 sudo rkhunter --update
 sudo rkhunter -c
 echo "Please check no_password_users.txt, lynis_log.txt, and open_ports_log.txt to check for any additional actions you need to take."
+
+#cronjob for hourly updates/upgrades, had some issues with this but appears to be ok now
+cd /home/$user
+#write out current crontab
+#echo new cron into cron file
+#install new cron file
+su -c "crontab -l > mycron; echo '0 * * * * sudo apt-get update && sudo apt-get upgrade -y' >>mycron; crontab mycron; rm mycron" -s /bin/sh $user
 
 #ask if user wants to reboot so all changes can be applied.
 echo "Reboot for changes to take effect, would you like to reboot now? (Y/N)"
