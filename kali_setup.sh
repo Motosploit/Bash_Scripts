@@ -3,10 +3,9 @@
 # must run as sudo
 
 # todo: 
-# add firewall hardening using ufw
+# add firewall hardening using ufw?
 # cronjob for hourly updates/upgrades
 # use ssh keys instead of username/password if needed
-# change hostname
 
 #set user variable
 user=$1
