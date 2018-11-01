@@ -10,12 +10,23 @@
 
 #set user variable
 user=$1
+#set new hostname variable 
+newhostname=$2
+#set whoami variable
+who=$(whoami)
 
-#check user variable is set
-if [ -z "$1" ]
+#check script is run as sudo
+if [ root != "$who" ]
 then  
-	echo Please supply a username	
-	echo Example Usage: ie: sudo ./kali_setup.sh nottoor
+	echo Please run script as root.
+	exit 
+fi
+
+#check user and hostname variable is set
+if [ -z "$user" ] || [ -z "$newhostname" ]
+then  
+	echo Please supply a username and hostname
+	echo Example Usage: sudo ./kali_setup.sh username newhostname
 	exit 
 fi
 
@@ -29,6 +40,14 @@ cd /tmp/
 echo Guest additions install complete.
 #change to root directory
 cd
+
+#Change Hostname 
+#set variable for current hostname
+currenthostname=$(cat /etc/hostname)
+
+#replace currenthostname with newhostname in /etc/hosts and /etc/hostname files
+sudo sed -i "s/$currenthostname/$newhostname/g" /etc/hosts
+sudo sed -i "s/$currenthostname/$newhostname/g" /etc/hostnamee
 
 #Add new user  
 adduser $user 
@@ -95,11 +114,6 @@ cd /opt/Sublist3r
 sudo pip install -r requirements.txt
 cd
 
-#Change Hostname 
-#sudo nano /etc/hosts 
-#sudo nano /etc/hostname 
-#sudo /etc/init.d/hostname.sh 
-
 #cronjob for hourly updates/upgrades, had some issues with this
 cd /home/$user
 #write out current crontab
@@ -138,3 +152,17 @@ sudo apt-get install rkhunter
 sudo rkhunter --update
 sudo rkhunter -c
 echo "Please check no_password_users.txt, lynis_log.txt, and open_ports_log.txt to check for any additional actions you need to take."
+
+#ask if user wants to reboot so all changes can be applied.
+echo "Reboot for changes to take effect, would you like to reboot now? (Y/N)"
+read answer
+if [ $answer = yes ] || [ $answer = y ] || [ $answer = Yes ] || [ $answer = Y ]
+then
+	echo Rebooting now
+	sudo init 6
+	exit
+elif [ $answer = no ] || [ $answer = n ] || [ $answer = No ] || [ $answer = N ]
+then
+	echo "Thanks for using this script!"
+	exit
+fi
