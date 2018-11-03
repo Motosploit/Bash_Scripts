@@ -65,6 +65,8 @@ echo "PermitRootLogin no" >> /etc/ssh/sshd_config
 
 #make sure sources list is ok
 echo "deb http://http.kali.org/kali kali-rolling main non-free contrib" >> /etc/apt/sources.list
+#clears the package cache for downloading new packages
+sudo apt-get clean
 #update everything
 sudo apt-get update -y
 sudo apt-get upgrade -y
@@ -125,7 +127,6 @@ sudo chkrootkit > ./chkrootkit_log.txt
 #Lynis is a security auditing tool for Linux, Mac OSX, and UNIX systems. It checks the system and the software configuration, to see if there is any room for improvement in the security defenses.
 sudo apt-get install lynis
 sudo apt-get -f install
-sudo apt-get install lynis
 #send lynis logs to file to current working directory
 echo Running lynis!
 sudo lynis audit system > ./lynis_log.txt
