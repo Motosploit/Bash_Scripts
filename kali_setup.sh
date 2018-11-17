@@ -28,6 +28,11 @@ then
 	exit 
 fi
 
+
+#change root password
+echo Changing root password!
+passwd
+
 #install vbox guest additions
 #insert guest additions CD
 echo Installing virtualbox guest additions.
